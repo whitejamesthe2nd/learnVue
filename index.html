@@ -11,18 +11,21 @@
             width: 100px;
             background-color: purple;
         }
+        [v-cloak]{
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div id='app'>
+    <div id='app' v-cloak>
         <div>
 
             {{greeting}}
         </div>
         <div class='box' v-if='isVisible'></div>
-        <form>
             <input v-model='greeting' ></input>
-        </form>
+            <button v-on:click='isVisible = !isVisible'>Show box</button>
+
     </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script>
