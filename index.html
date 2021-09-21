@@ -22,9 +22,9 @@
 
             {{greeting}}
         </div>
+        <button @click='toggleBox'>toggle Box</button>
         <div class='box' v-if='isVisible'></div>
-            <input v-model='greeting' ></input>
-            <button v-on:click='isVisible = !isVisible'>Show box</button>
+            <input v-model='greeting' @keyup.enter='greet(greeting + "!!!!!")' ></input>
 
     </div>
     <script src="https://unpkg.com/vue@next"></script>
@@ -34,6 +34,14 @@
                 return{
                     greeting: 'Hello Vue 3!',
                     isVisible: true,
+                }
+            },
+            methods:{
+                toggleBox(){
+                    this.isVisible = !this.isVisible;
+                },
+                greet(someStuff){
+                    console.log(someStuff)
                 }
             }
         });
