@@ -14,6 +14,10 @@
         [v-cloak]{
             display: none;
         }
+        input{
+            display: block;
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -22,9 +26,10 @@
 
             {{greeting}}
         </div>
-        <button @click='toggleBox'>toggle Box</button>
+        <button @click.prevent='toggleBox'>toggle Box</button>
         <div class='box' v-if='isVisible'></div>
-            <input v-model='greeting' @keyup.enter='greet(greeting + "!!!!!")' ></input>
+        <input v-model='greeting' @keyup.enter='greet(greeting + "!!!!!")' ></input>
+        <custom-form />
 
     </div>
     <script src="https://unpkg.com/vue@next"></script>
@@ -45,6 +50,59 @@
                 }
             }
         });
+
+        app.component('custom-form', {
+            template: `
+                <form @submit.prevent="handleSubmit">
+                    <h1>{{title}}</h1>
+                    <custom-input  v-model='email' :label="emailLabel"/>
+                    <custom-input  v-model='password' v-bind:label='passwordLabel'/>
+                    <button > Submit </button>
+                </form>
+                `,
+                components: ['custom-input'],
+                data() {
+                    return {
+                        title: 'Login Form',
+                        email:'',
+                        password:'',
+                        emailLabel: 'Email',
+                        passwordLabel: 'Password'
+                    }
+                },
+                methods: {
+                    handleSubmit() {
+                        console.log('submitted',this.email, this.password);
+                    }
+                }
+        })
+        app.component('custom-input', {
+            template: `
+                <label>
+                    {{label}}
+                    <input type="text" v-model='inputValue'>
+                </label>
+                `,
+                props:['label', 'modelValue'],
+                computed: {
+                    inputValue:{
+                        get(){
+                          return  this.modelValue
+                        },
+                        set(value) {
+                            console.log(value);
+
+                        }
+                    }
+                }
+                // data() {
+                //     return{
+                //         inputValue: ''
+                //     }
+                // },
+
+        })
+
         app.mount('#app')
 
     </script>
