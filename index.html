@@ -27,9 +27,10 @@
             {{greeting}}
         </div>
         <button @click.prevent='toggleBox'>toggle Box</button>
-        <div class='box' v-if='isVisible'></div>
+        <div class="box" v-if='isVisible'></div>
         <input v-model='greeting' @keyup.enter='greet(greeting + "!!!!!")' ></input>
         <custom-form />
+        <test-box :isVisible='isVisible'/>
 
     </div>
     <script src="https://unpkg.com/vue@next"></script>
@@ -64,8 +65,9 @@
                     />
                     <button > Submit </button>
                 </form>
+                <test-box />
                 `,
-                components: ['custom-input'],
+                components: ['custom-input', 'test-box'],
                 data() {
                     return {
                         title: 'Login Form',
@@ -118,6 +120,29 @@
                 //     }
                 // },
 
+        })
+        app.component('test-box', {
+            template: `
+            <div class="box" v-if='isVisible'></div>
+            `,
+            data: ()=>{
+                return({
+                    isVisible: true,
+                }
+                )
+            },
+            created(){
+                console.log('created');
+            },
+            mounted(){
+                console.log('mounted');
+
+            },
+            unmounted(){
+                console.log('unmounted');
+
+            },
+            props: ['isVisible']
         })
 
         app.mount('#app')
